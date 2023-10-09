@@ -1,0 +1,21 @@
+{
+	"name": "ingeni-latest-posts",
+	"version": "2023.1.0",
+	"description": "Display the latest posts of a category",
+	"author": "ingeni.net",
+	"license": "GPL-2.0-or-later",
+	"main": "build/index.js",
+	"scripts": {
+		"build": "wp-scripts build",
+		"format": "wp-scripts format",
+		"lint:css": "wp-scripts lint-style",
+		"lint:js": "wp-scripts lint-js",
+		"packages-update": "wp-scripts packages-update",
+		"dist": "wp-scripts dist-zip",
+		"plugin-zip": "wp-scripts plugin-zip",
+		"start": "wp-scripts start"
+	},
+	"devDependencies": {
+		"@wordpress/scripts": "^26.13.0"
+	}
+}
