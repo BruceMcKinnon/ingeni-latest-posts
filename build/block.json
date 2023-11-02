@@ -2,7 +2,7 @@
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "name": "ingeni/ingeni-latest-posts",
-  "version": "2023.1.0",
+  "version": "2023.2.0",
   "title": "Ingeni Latest Posts",
   "category": "widgets",
   "icon": "admin-post",
@@ -76,6 +76,18 @@
     "templateFile": {
       "type": "string",
       "default": ""
+    },
+    "orderBy": {
+      "type": "string",
+      "default": "date"
+    },
+    "sortOrder": {
+      "type": "string",
+      "default": "DESC"
+    },
+    "postOffset": {
+      "type": "number",
+      "default": 0
     }
   }
 }

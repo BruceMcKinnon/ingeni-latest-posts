@@ -2,14 +2,14 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "ingeni/ingeni-latest-posts",
-	"version": "2023.1.0",
+	"version": "2023.2.0",
 	"title": "Ingeni Latest Posts",
 	"category": "widgets",
 	"icon": "admin-post",
 	"description": "Display the latest posts of a category",
 	"example": {},
 	"supports": {
-		"html": false
+	  "html": false
 	},
 	"textdomain": "ingeni-latest-posts",
 	"editorScript": "file:./index.js",
@@ -17,65 +17,77 @@
 	"style": "file:./style-index.css",
 	"viewScript": "file:./view.js",
 	"attributes": {
-		"wrapperClass": {
-			"type": "string",
-			"default": "ingeni_latest_posts"
-		},
-		"postsType": {
-			"type": "string",
-			"default": "post"
-		},
-		"postsCategory": {
-			"type": "array",
-			"default": []
-		},
-		"notinCategory": {
-			"type": "boolean",
-			"default": false
-		},
-		"postsCount": {
-			"type": "number",
-			"default": 6
-		},
-		"postsTag": {
-			"type": "array",
-			"default": []
-		},
-		"notinTag": {
-			"type": "boolean",
-			"default": false
-		},
-		"ignoreSticky": {
-			"type": "boolean",
-			"default": false
-		},
-		"showImage": {
-			"type": "boolean",
-			"default": false
-		},
-		"showExcerpt": {
-			"type": "boolean",
-			"default": false
-		},
-		"showCategory": {
-			"type": "boolean",
-			"default": false
-		},
-		"showDate": {
-			"type": "boolean",
-			"default": false
-		},
-		"showButton": {
-			"type": "boolean",
-			"default": false
-		},
-		"buttonLabel": {
-			"type": "string",
-			"default": "Read more"
-		},
-		"templateFile": {
-			"type": "string",
-			"default": ""
-		}
+	  "wrapperClass": {
+		"type": "string",
+		"default": "ingeni_latest_posts"
+	  },
+	  "postsType": {
+		"type": "string",
+		"default": "post"
+	  },
+	  "postsCategory": {
+		"type": "array",
+		"default": []
+	  },
+	  "notinCategory": {
+		"type": "boolean",
+		"default": false
+	  },
+	  "postsCount": {
+		"type": "number",
+		"default": 6
+	  },
+	  "postsTag": {
+		"type": "array",
+		"default": []
+	  },
+	  "notinTag": {
+		"type": "boolean",
+		"default": false
+	  },
+	  "ignoreSticky": {
+		"type": "boolean",
+		"default": false
+	  },
+	  "showImage": {
+		"type": "boolean",
+		"default": false
+	  },
+	  "showExcerpt": {
+		"type": "boolean",
+		"default": false
+	  },
+	  "showCategory": {
+		"type": "boolean",
+		"default": false
+	  },
+	  "showDate": {
+		"type": "boolean",
+		"default": false
+	  },
+	  "showButton": {
+		"type": "boolean",
+		"default": false
+	  },
+	  "buttonLabel": {
+		"type": "string",
+		"default": "Read more"
+	  },
+	  "templateFile": {
+		"type": "string",
+		"default": ""
+	  },
+	  "orderBy": {
+		"type": "string",
+		"default": "date"
+	  },
+	  "sortOrder": {
+		"type": "string",
+		"default": "DESC"
+	  },
+	  "postOffset": {
+		"type": "number",
+		"default": 0
+	  }
 	}
-}
+  }

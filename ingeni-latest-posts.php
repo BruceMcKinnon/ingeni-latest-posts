@@ -4,7 +4,7 @@
  * Description:       Display the latest posts of a category
  * Requires at least: 6.1
  * Requires PHP:      7.0
- * Version:           2023.01
+ * Version:           2023.02
  * Author:            Bruce McKinnon - ingeni.net
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -46,12 +46,17 @@ function create_block_ingeni_latest_posts_block_init() {
 			$ignore_sticky_posts = (int) $attributes['ignoreSticky'];
 			$template_file = $attributes['templateFile'];
 
+			$orderBy = $attributes['orderBy'];
+			$sortOrder = $attributes['sortOrder'];
+
+			$offset = $attributes['postOffset'];
+
 			$atts = array(
-				'orderby' => 'date',
-				'order' => 'desc',
+				'orderby' => $orderBy,
+				'order' => $sortOrder,
 				'posts_per_page' => $num_posts,
 				'ignore_sticky_posts' => $ignore_sticky_posts,
-				'offset' => 0,
+				'offset' => $offset,
 				'post_type' => $postsType,
 				'post_status' => 'publish',
 				'post_parent' => 0,
@@ -95,7 +100,6 @@ function create_block_ingeni_latest_posts_block_init() {
 				if ( file_exists( plugin_dir_path( __FILE__ ) . 'templates/'.$template_file ) ) {
 					$template_file = plugin_dir_path( __FILE__ ) . 'templates/'.$template_file;
 				}
-
 
 				if ( file_exists( get_template_directory() .'/ingeni-latest-posts/'.$template_file ) ) {
 					$template_file = get_template_directory() .'/ingeni-latest-posts/'.$template_file;

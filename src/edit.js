@@ -39,7 +39,7 @@ import './editor.scss';
  */
 export default function Edit( { attributes, setAttributes } ) {
 	// postCategory defined in block.json
-    const { wrapperClass, postsType, postsCategory, notinCategory, postsCount, postsTag, notinTag, showImage, ignoreSticky, showExcerpt, showCategory, showDate, showButton, buttonLabel, templateFile } = attributes;
+    const { wrapperClass, postsType, postsCategory, notinCategory, postsCount, postsTag, notinTag, showImage, ignoreSticky, showExcerpt, showCategory, showDate, showButton, buttonLabel, templateFile, orderBy, sortOrder, postOffset } = attributes;
 	
 	// useSelect to retrieve all post types and categories
 	const { useSelect } = wp.data;
@@ -68,6 +68,8 @@ export default function Edit( { attributes, setAttributes } ) {
 	// End - Get a list of Post Types
 
 
+	// Sort Order options
+	const sortOrderOptions = [ {label:'DESC', value:"DESC"}, {label:'ASC', value:"ASC"} ];
 
 	//
 	// Populate the Categories SelectControl
@@ -270,12 +272,40 @@ export default function Edit( { attributes, setAttributes } ) {
 						/>
 					</PanelRow>
 
+					<PanelRow>
+						<TextControl
+							label="Order By"
+							value={ orderBy }
+							onChange={(value) => setAttributes({ orderBy: value })}
+							help="eg: date, title, menu_order, rand"
+						/>
+					</PanelRow>
+
+					<PanelRow>
+						<SelectControl
+							label="Sort Order"
+							options={ sortOrderOptions }
+							value={ sortOrder }
+							onChange={(value) => setAttributes({ sortOrder: value })}
+						/>
+					</PanelRow>
+
+					<PanelRow>
+						<RangeControl
+							label={ "Offset" }
+							value={ postOffset }
+							onChange={ ( value ) => setAttributes( { postOffset: Number.parseInt( value ) } ) }
+							min={ 0 }
+							max={ 12 }
+						/>
+					</PanelRow>
+
 				</PanelBody>
             </InspectorControls>
 
 			<ServerSideRender 
 				block="ingeni/ingeni-latest-posts"
-				attributes={ { wrapperClass, postsType, postsCategory, notinCategory, postsCount, postsTag, notinTag, showImage, ignoreSticky, showExcerpt, showCategory, showDate, showButton, buttonLabel, templateFile } }
+				attributes={ { wrapperClass, postsType, postsCategory, notinCategory, postsCount, postsTag, notinTag, showImage, ignoreSticky, showExcerpt, showCategory, showDate, showButton, buttonLabel, templateFile, orderBy, sortOrder, postOffset } }
 			/>	
 		</div>
 	);
