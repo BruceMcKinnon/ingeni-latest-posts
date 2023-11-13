@@ -39,7 +39,7 @@ import './editor.scss';
  */
 export default function Edit( { attributes, setAttributes } ) {
 	// postCategory defined in block.json
-    const { wrapperClass, postsType, postsCategory, notinCategory, postsCount, postsTag, notinTag, showImage, ignoreSticky, showExcerpt, showCategory, showDate, showButton, buttonLabel, templateFile, orderBy, sortOrder, postOffset } = attributes;
+    const { wrapperClass, postsType, postsCategory, notinCategory, postsCount, postsTag, notinTag, showImage, ignoreSticky, showExcerpt, showCategory, showDate, showButton, buttonLabel, templateFile, orderBy, sortOrder, postOffset, postParent } = attributes;
 	
 	// useSelect to retrieve all post types and categories
 	const { useSelect } = wp.data;
@@ -165,6 +165,13 @@ export default function Edit( { attributes, setAttributes } ) {
 							options={ postTypeOptions }
 							value={ postsType }
 							onChange={(value) => setAttributes({ postsType: value })}
+						/>
+					</PanelRow>
+					<PanelRow>
+						<TextControl
+							label="Post Parent ID"
+							value={ postParent }
+							onChange={(value) => setAttributes({ postParent: Number.parseInt( value ) } ) }
 						/>
 					</PanelRow>
 					<PanelRow>
@@ -305,7 +312,7 @@ export default function Edit( { attributes, setAttributes } ) {
 
 			<ServerSideRender 
 				block="ingeni/ingeni-latest-posts"
-				attributes={ { wrapperClass, postsType, postsCategory, notinCategory, postsCount, postsTag, notinTag, showImage, ignoreSticky, showExcerpt, showCategory, showDate, showButton, buttonLabel, templateFile, orderBy, sortOrder, postOffset } }
+				attributes={ { wrapperClass, postsType, postsCategory, notinCategory, postsCount, postsTag, notinTag, showImage, ignoreSticky, showExcerpt, showCategory, showDate, showButton, buttonLabel, templateFile, orderBy, sortOrder, postOffset, postParent } }
 			/>	
 		</div>
 	);

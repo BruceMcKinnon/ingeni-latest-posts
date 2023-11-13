@@ -2,7 +2,7 @@
 Contributors:      The WordPress Contributors
 Tags:              block, posts
 Tested up to:      6.3.1
-Stable tag:        2023.2.0
+Stable tag:        2023.3.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -34,4 +34,6 @@ A block control to display the latest posts or page. Posts are displayed in colu
 = 2023.1.0 - Initial release.
 
 = 2023.2.0 - Added the ability to set the sortOrder and orderBy parameters of the WP query, and also the offset parameter.
+
+= 2023.3.0 - Added the Post Parent ID parameter.
 

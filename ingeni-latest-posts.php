@@ -4,7 +4,7 @@
  * Description:       Display the latest posts of a category
  * Requires at least: 6.1
  * Requires PHP:      7.0
- * Version:           2023.02
+ * Version:           2023.03
  * Author:            Bruce McKinnon - ingeni.net
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -50,6 +50,7 @@ function create_block_ingeni_latest_posts_block_init() {
 			$sortOrder = $attributes['sortOrder'];
 
 			$offset = $attributes['postOffset'];
+			$postParent = $attributes['postParent'];
 
 			$atts = array(
 				'orderby' => $orderBy,
@@ -59,7 +60,7 @@ function create_block_ingeni_latest_posts_block_init() {
 				'offset' => $offset,
 				'post_type' => $postsType,
 				'post_status' => 'publish',
-				'post_parent' => 0,
+				'post_parent' => $postParent,
 				'post_mime_type' => '',
 				'year' => '',
 			);
