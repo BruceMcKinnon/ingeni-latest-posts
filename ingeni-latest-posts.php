@@ -4,7 +4,7 @@
  * Description:       Display the latest posts of a category
  * Requires at least: 6.1
  * Requires PHP:      7.0
- * Version:           2023.03
+ * Version:           2023.4.0
  * Author:            Bruce McKinnon - ingeni.net
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -34,14 +34,21 @@ function create_block_ingeni_latest_posts_block_init() {
 
 			$debugHtml = '';
 
+			$log_debug = (int) $attributes['logDebug'];
+
+			if ($log_debug) {
+				fb_log('attributes:'.print_r($attributes,true));
+			}
+
 			$postsType = $attributes['postsType'];
 			if ( !$postsType ) {
 				$postsType = 'post';
 			}
 
 			// Allows you query for posts no in the selected categories
-			$not_in_category = (int) $attributes['notinCategory'];
 			$not_in_tag = (int) $attributes['notinTag'];
+
+			$query_categories = $attributes['queryCategories'];
 
 			$ignore_sticky_posts = (int) $attributes['ignoreSticky'];
 			$template_file = $attributes['templateFile'];
@@ -51,6 +58,10 @@ function create_block_ingeni_latest_posts_block_init() {
 
 			$offset = $attributes['postOffset'];
 			$postParent = $attributes['postParent'];
+
+			$metaKey = $attributes['metaKey'];
+			$metaValue = $attributes['metaValue'];
+			$metaCompare = $attributes['metaCompare'];
 
 			$atts = array(
 				'orderby' => $orderBy,
@@ -65,13 +76,16 @@ function create_block_ingeni_latest_posts_block_init() {
 				'year' => '',
 			);
 
-			if ( $not_in_category ) {
-				$atts += array('category__not_in' => $attributes['postsCategory'] );
-				
-			} else {
-				$atts += array('category__in' => $attributes['postsCategory'] );
+			if ( $query_categories != 'ignore' ) {
+				if ( $query_categories == 'exclude' ) {
+					$atts += array('category__not_in' => $attributes['postsCategory'] );
+					
+				} else {
+					$atts += array('category__in' => $attributes['postsCategory'] );
+				}
 			}
 
+			
 
 			// Tags - these are saved as an array of slugs. But we need to provide
 			// WP_Query with the matching IDs
@@ -92,6 +106,22 @@ function create_block_ingeni_latest_posts_block_init() {
 				}
 			}
 
+			// Add meta field query to the mix - great for ACF
+			if (strlen($metaKey) > 0) {
+				//if ( is_string($metaValue) ) {
+					//$metaValue = $metaValue;
+				//}
+				//$metaKey = $metaKey;
+				//$metaCompare = $metaCompare;
+
+				$meta_atts = array( 'meta_key' => $metaKey, 'meta_value' => $metaValue, 'meta_compare' => $metaCompare );
+
+				$atts += $meta_atts;
+			}
+
+			if ($log_debug) {
+				fb_log('WP_Query:'.print_r($atts,true));
+			}
 
 			//
 			// Use a custom template?
@@ -142,15 +172,15 @@ function create_block_ingeni_latest_posts_block_init() {
 				}
 			}
 
-			$debugHtml = '';
-			//$debugHtml .= '<p>Cat:'.print_r($attributes['postsCategory'],true). ' = '.$cat_name.' Count:'.$attributes['postsCount'].'</p>';
-			//$debugHtml .= '<p>Image:'.$attributes['showImage']. ' Excerpt:'.$attributes['showExcerpt']. ' IgnoreSticky:'.$attributes['ignoreSticky'].'</p>';
-
 			if ( $templateRenderer ) {
 				// Open the wrapper divs
 				$retHtml = $templateRenderer->ilp_get_block_wrapper_open();
 
 				$the_query = new WP_Query( $atts );
+
+				if ($log_debug) {
+					fb_log('sql:'.$the_query->request);
+				}
 
 				if ( $the_query->have_posts() ) {
 					$post_idx = 0;
@@ -163,7 +193,7 @@ function create_block_ingeni_latest_posts_block_init() {
 							break;
 						}
 
-						$retHtml .= $templateRenderer->ilp_render_one_post( get_the_ID() );
+						$retHtml .= $templateRenderer->ilp_render_one_post( get_the_ID(), $post_idx );
 					}
 
 				} else {
@@ -174,7 +204,10 @@ function create_block_ingeni_latest_posts_block_init() {
 				$retHtml .= $templateRenderer->ilp_get_block_wrapper_close();
 			}
 
-		return $debugHtml.$retHtml;
+		if ($log_debug) {
+			fb_log('returns: '.$retHtml);
+		}
+		return $retHtml;
 		}
 	) );
 }

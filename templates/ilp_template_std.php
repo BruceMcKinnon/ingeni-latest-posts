@@ -45,7 +45,7 @@ class ilp_template {
         }
     }
 
-    function ilp_render_one_post( $post_id ) {
+    function ilp_render_one_post( $post_id, $idx ) {
 
         $this->html = '';
 		if ( has_post_thumbnail( $post_id ) && ($this->show_image) ) {

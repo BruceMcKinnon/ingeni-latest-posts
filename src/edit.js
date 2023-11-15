@@ -20,6 +20,7 @@ import { useState } from '@wordpress/element';
 import { store as coreStore } from '@wordpress/core-data';
 import { SelectControl, ToggleControl, TextControl, PanelBody, PanelRow, FormTokenField, RangeControl } from '@wordpress/components';
 import { __experimentalNumberControl as NumberControl } from '@wordpress/components';
+import { __experimentalToggleGroupControl as ToggleGroupControl,  __experimentalToggleGroupControlOption as ToggleGroupControlOption } from '@wordpress/components';
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -39,7 +40,7 @@ import './editor.scss';
  */
 export default function Edit( { attributes, setAttributes } ) {
 	// postCategory defined in block.json
-    const { wrapperClass, postsType, postsCategory, notinCategory, postsCount, postsTag, notinTag, showImage, ignoreSticky, showExcerpt, showCategory, showDate, showButton, buttonLabel, templateFile, orderBy, sortOrder, postOffset, postParent } = attributes;
+    const { wrapperClass, postsType, postsCategory, queryCategories, postsCount, postsTag, notinTag, showImage, ignoreSticky, showExcerpt, showCategory, showDate, showButton, buttonLabel, templateFile, orderBy, sortOrder, postOffset, postParent, metaKey, metaValue, metaCompare, logDebug } = attributes;
 	
 	// useSelect to retrieve all post types and categories
 	const { useSelect } = wp.data;
@@ -70,6 +71,28 @@ export default function Edit( { attributes, setAttributes } ) {
 
 	// Sort Order options
 	const sortOrderOptions = [ {label:'DESC', value:"DESC"}, {label:'ASC', value:"ASC"} ];
+
+	// Comparision options
+	const compareOptions = [ 
+		{label:'=', value:"="},
+		{label:'!=', value:"!="},
+		{label:'<', value:"<"},
+		{label:'<=', value:"<="},
+		{label:'>', value:">"},
+		{label:'>=', value:">="},
+		{label:'LIKE', value:"LIKE"},
+		{label:'NOT LIKE', value:"NOT LIKE"},
+		{label:'IN', value:"IN"},
+		{label:'NOT IN', value:"NOT IN"},
+		{label:'BETWEEN', value:"BETWEEN"},
+		{label:'NOT BETWEEN', value:"NOT BETWEEN"},
+		{label:'EXISTS', value:"EXISTS"},
+		{label:'NOT EXISTS', value:"NOT EXISTS"},
+		{label:'REGEXP', value:"REGEXP"},
+		{label:'NOT REGEXP', value:"NOT REGEXP"},
+		{label:'RLIKE', value:"RLIKE"}
+	];
+
 
 	//
 	// Populate the Categories SelectControl
@@ -184,12 +207,18 @@ export default function Edit( { attributes, setAttributes } ) {
 						/>
 					</PanelRow>
 					<PanelRow>
-						<ToggleControl
-							label="Exclude Categories"
-							checked={ attributes.notinCategory }
-							onChange={() => setAttributes({ notinCategory: !attributes.notinCategory })}
-						/>
+					<ToggleGroupControl 
+						label="Category Use"
+						value={ queryCategories } 
+						isBlock
+						onChange={(value) => setAttributes({ queryCategories: value })} 
+						>
+							<ToggleGroupControlOption value="include" label="Include" showTooltip={ true } />
+							<ToggleGroupControlOption value="exclude" label="Exclude" />
+							<ToggleGroupControlOption value="ignore" label="Ignore" />
+					</ToggleGroupControl>
 					</PanelRow>
+
 
 					<PanelRow>
 						<RangeControl
@@ -306,13 +335,49 @@ export default function Edit( { attributes, setAttributes } ) {
 							max={ 12 }
 						/>
 					</PanelRow>
+					<PanelRow>
+						<ToggleControl
+							label="Debug Log"
+							checked={ attributes.logDebug }
+							onChange={() => setAttributes({ logDebug: !attributes.logDebug })}
+						/>
+					</PanelRow>
+
+				</PanelBody>
+
+				<PanelBody title="Meta Field Query" initialOpen={true}>
+					<PanelRow>
+						<TextControl
+							label="Meta Key"
+							value={ metaKey }
+							onChange={(value) => setAttributes({ metaKey: value })}
+							help="eg: name of an ACF field"
+						/>
+					</PanelRow>
+
+					<PanelRow>
+						<TextControl
+							label="Meta Value"
+							value={ metaValue }
+							onChange={(value) => setAttributes({ metaValue: value })}
+							help="eg: value of a matching ACF field"
+						/>
+					</PanelRow>
+					<PanelRow>
+						<SelectControl
+							label="Meta Comparision"
+							options={ compareOptions }
+							value={ metaCompare }
+							onChange={(value) => setAttributes({ metaCompare: value })}
+						/>
+					</PanelRow>
 
 				</PanelBody>
             </InspectorControls>
 
 			<ServerSideRender 
 				block="ingeni/ingeni-latest-posts"
-				attributes={ { wrapperClass, postsType, postsCategory, notinCategory, postsCount, postsTag, notinTag, showImage, ignoreSticky, showExcerpt, showCategory, showDate, showButton, buttonLabel, templateFile, orderBy, sortOrder, postOffset, postParent } }
+				attributes={ { wrapperClass, postsType, postsCategory, queryCategories, postsCount, postsTag, notinTag, showImage, ignoreSticky, showExcerpt, showCategory, showDate, showButton, buttonLabel, templateFile, orderBy, sortOrder, postOffset, postParent, metaKey, metaValue, metaCompare, logDebug } }
 			/>	
 		</div>
 	);
