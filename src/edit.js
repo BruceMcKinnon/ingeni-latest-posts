@@ -225,8 +225,8 @@ export default function Edit( { attributes, setAttributes } ) {
 							label={ "Number of posts" }
 							value={ postsCount }
 							onChange={ ( value ) => setAttributes( { postsCount: Number.parseInt( value ) } ) }
-							min={ 1 }
-							max={ 12 }
+							min={ 0 }
+							max={ 48 }
 						/>
 					</PanelRow>
 
