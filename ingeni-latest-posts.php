@@ -4,7 +4,7 @@
  * Description:       Display the latest posts of a category
  * Requires at least: 6.1
  * Requires PHP:      7.0
- * Version:           2023.5.0
+ * Version:           2023.6.0
  * Author:            Bruce McKinnon - ingeni.net
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -174,7 +174,13 @@ function create_block_ingeni_latest_posts_block_init() {
 					$templateRenderer = new ilp_template( $attributes );
 
 				} else {
-					$retHtml = '<p>Sorry, the latest posts template '.$template_file. ' does not support the mandatory functions.</p>';
+					$name_space = basename($template_file, '.php');
+					$class_name = $name_space."\ilp_template";
+					if ( class_exists($class_name) ) {
+						$templateRenderer = new $class_name( $attributes );
+					} else {
+						$retHtml = '<p>Sorry, the latest posts template '.$template_file. ' does not support the mandatory functions.</p>';
+					}
 				}
 			}
 
@@ -208,6 +214,8 @@ function create_block_ingeni_latest_posts_block_init() {
 
 				// Close the wrapper divs
 				$retHtml .= $templateRenderer->ilp_get_block_wrapper_close();
+
+				$templateRenderer = null;
 			}
 
 		if ($log_debug) {

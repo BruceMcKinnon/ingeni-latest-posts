@@ -13,7 +13,8 @@ ilp_get_block_wrapper_close()
 
 */
 
-if ( !class_exists("ilp_template") ) {
+namespace ilp_template_std;
+
 class ilp_template {
 	public $html;
 	public $attributes;
@@ -209,5 +210,4 @@ class ilp_template {
 		return $excerpt;
 	}
 
-}
 }

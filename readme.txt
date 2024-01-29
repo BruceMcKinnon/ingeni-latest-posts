@@ -2,7 +2,7 @@
 Contributors:      The WordPress Contributors
 Tags:              block, posts
 Tested up to:      6.3.1
-Stable tag:        2023.5.0
+Stable tag:        2023.6.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -43,3 +43,6 @@ A block control to display the latest posts or page. Posts are displayed in colu
 
 = 2023.5.0  - If Max Posts set to 0, display all posts
             - If Post Parent set to 0, ignore checking the Post Parent
+
+= 2023.6.0. - Templates now implement namespaces, allowing multiple templates to be used on a single page.
+
